@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUsername } from '../store/user';
 import { TextField, Button, Container } from '@mui/material';
@@ -18,10 +18,11 @@ export const Login = () => {
     }
   };
 
-  if (loggedIn) {
-    navigate('/dashboard');
-    return null;
-  }
+  useEffect(() => {
+    if (loggedIn) {
+      navigate('/dashboard');
+    }
+  }, [loggedIn, navigate]);
 
   return (
     <Container>
