@@ -2,6 +2,7 @@ import './App.css';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import ClientLayout from './layouts/client';
 import AuthLayout from './layouts/auth';
+import './assets/css/variables.css';
 
 function App() {
   return (

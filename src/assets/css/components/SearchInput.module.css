@@ -1,7 +1,21 @@
 .search__container {
   width: 100%;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 10px;
+  margin-bottom: 3rem;
+}
+
+.search__input {
+  width: 90%;
+  height: auto;
+  border-radius: 1rem;
+}
+
+.search__button {
+  width: 10%;
+  color: var(--gray-100) !important;
+  background-color: var(--gray-700) !important;
 }

@@ -1,8 +1,8 @@
+import { Box } from '@mui/material';
 import React from 'react';
-import { Container, Box, Typography } from '@mui/material';
-import { Routes, Route, Navigate } from 'react-router-dom';
-import Dashboard from '../../views/Dashboard';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import Navbar from '../../components/Navbar';
+import Dashboard from '../../views/Dashboard';
 
 const ClientLayout = () => {
   return (

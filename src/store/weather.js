@@ -12,7 +12,7 @@ export const fetchWeather = createAsyncThunk(
   'weather/fetchWeather',
   async (city) => {
     const response = await axios.get(
-      `API_ENDPOINT?q=${city}&appid=YOUR_API_KEY`,
+      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=55a50bb805cfa7df500aab386e6d7afd`,
     );
     return response.data;
   },
