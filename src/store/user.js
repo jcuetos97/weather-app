@@ -1,21 +1,28 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { Cookies } from 'react-cookie';
 
-const initialUserState = {
-  userEmail: '',
-  userName: '',
-  userRole: '',
+const cookies = new Cookies();
+const initialState = {
+  username: cookies.get('username') || '',
+  loggedIn: !!cookies.get('username'),
 };
 
 const userSlice = createSlice({
   name: 'user',
-  initialState: initialUserState,
+  initialState,
   reducers: {
-    setUserData(state, action) {
-      state.userEmail = action.payload.userEmail;
-      state.userName = action.payload.userName;
+    setUsername: (state, action) => {
+      state.username = action.payload;
+      state.loggedIn = true;
+      cookies.set('username', action.payload, { path: '/' });
+    },
+    logout: (state) => {
+      state.username = '';
+      state.loggedIn = false;
+      cookies.remove('username', { path: '/' });
     },
   },
 });
 
-export const userActions = userSlice.actions;
+export const { setUsername, logout } = userSlice.actions;
 export default userSlice.reducer;
