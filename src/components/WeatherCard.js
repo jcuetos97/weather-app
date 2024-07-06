@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { removeCity } from '../features/weather/weatherSlice';
+import { removeCity } from '../store/weather';
 import { Card, CardContent, Typography, Button } from '@mui/material';
 
 const WeatherCard = ({ city, weather }) => {
@@ -15,13 +15,13 @@ const WeatherCard = ({ city, weather }) => {
       <CardContent>
         <Typography variant="h5">{city}</Typography>
         <Typography variant="body2">
-          Temperature: {weather.main.temp}
+          Temperature: {weather?.main.temp || '-'}
         </Typography>
         <Typography variant="body2">
-          Humidity: {weather.main.humidity}
+          Humidity: {weather?.main.humidity || '-'}
         </Typography>
         <Typography variant="body2">
-          Wind Speed: {weather.wind.speed}
+          Wind Speed: {weather?.wind.speed || '-'}
         </Typography>
         <Button variant="contained" color="secondary" onClick={handleRemove}>
           Remove

@@ -1,22 +1,26 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setUsername } from '../features/user/userSlice';
+import { setUsername } from '../store/user';
 import { TextField, Button, Container } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
-const Login = () => {
+export const Login = () => {
   const [username, setUsernameInput] = useState('');
   const [password, setPassword] = useState('');
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const loggedIn = useSelector((state) => state.user.loggedIn);
 
   const handleLogin = () => {
     if (username && password) {
       dispatch(setUsername(username));
+      navigate('/dashboard');
     }
   };
 
   if (loggedIn) {
-    return <div>Welcome, {username}</div>;
+    navigate('/dashboard');
+    return null;
   }
 
   return (

@@ -1,5 +1,7 @@
 import React from 'react';
 import { Container, Box, Typography } from '@mui/material';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import { Login } from '../../components/Login';
 
 const AuthLayout = () => {
   return (

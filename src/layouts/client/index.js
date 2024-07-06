@@ -1,5 +1,7 @@
 import React from 'react';
 import { Container, Box, Typography } from '@mui/material';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import Dashboard from '../../views/Dashboard';
 
 const ClientLayout = () => {
   return (
@@ -15,8 +17,8 @@ const ClientLayout = () => {
           My Weather App
         </Typography>
         <Routes>
-          <Route path="login" element={<Login />} />
-          <Route path="/" element={<Navigate to="login" replace />} />
+          <Route path="search" element={<Dashboard />} />
+          <Route path="/" element={<Navigate to="search" replace />} />
         </Routes>
       </Box>
     </Container>

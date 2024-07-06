@@ -9,7 +9,7 @@ import userSlice from './user';
 const rootReducer = combineReducers({
   errors: errorSlice,
   user: userSlice,
-  auth: authSlice,
+  weather: weatherSlice,
 });
 
 // Configure the persistence for the root reducer
