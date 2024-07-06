@@ -10,15 +10,9 @@ import 'slick-carousel/slick/slick-theme.css';
 import '../assets/css/slider.css';
 
 const Dashboard = () => {
-  const { cities, weatherData, loading } = useSelector(
+  const { cities, weatherData, loading, resultMessage } = useSelector(
     (state) => state.weather,
   );
-  const sliderRef = useRef(null);
-  useEffect(() => {
-    if (sliderRef.current) {
-      sliderRef.current.slickGoTo(0); // Navigate to the first slide whenever cities array changes
-    }
-  }, [cities]);
 
   // Settings for the Slick slider
   const settings = {
@@ -29,6 +23,7 @@ const Dashboard = () => {
     slidesToShow: 3,
     slidesToScroll: 1,
     adaptiveHeight: true,
+    mobileFirst: true,
     responsive: [
       {
         breakpoint: 1024,
@@ -54,15 +49,19 @@ const Dashboard = () => {
     <Container maxWidth="md">
       <h1>Weather App Dashboard</h1>
       <SearchInput />
+      <h2>Your cities</h2>
+      <p>{resultMessage}</p>
       {loading && <LoadingSpinner />}
       {cities?.length > 0 && (
-        <Slider ref={sliderRef} {...settings}>
-          {cities.map((city) => (
-            <div key={city}>
-              <WeatherCard city={city} weather={weatherData[city]} />
-            </div>
-          ))}
-        </Slider>
+        <Container className="slider-container">
+          <Slider {...settings}>
+            {cities.map((city) => (
+              <div key={city}>
+                <WeatherCard city={city} weather={weatherData[city]} />
+              </div>
+            ))}
+          </Slider>
+        </Container>
       )}
     </Container>
   );

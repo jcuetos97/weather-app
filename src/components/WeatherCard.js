@@ -15,7 +15,7 @@ const WeatherCard = ({ city, weather }) => {
   return (
     <Card className={classes.card__weather__container}>
       <CardContent>
-        <Typography variant="h5" mb={2}>
+        <Typography variant="h5" mb={5}>
           {weather?.name || city}
         </Typography>
         <Grid container rowSpacing={2} className={classes.card__weather__grid}>

@@ -8,18 +8,10 @@ const ClientLayout = () => {
   return (
     <>
       <Navbar />
-      <Box
-        display="flex"
-        flexDirection="column"
-        alignItems="center"
-        justifyContent="flex-start"
-        minHeight="100vh"
-      >
-        <Routes>
-          <Route path="search" element={<Dashboard />} />
-          <Route path="/" element={<Navigate to="search" replace />} />
-        </Routes>
-      </Box>
+      <Routes>
+        <Route path="search" element={<Dashboard />} />
+        <Route path="/" element={<Navigate to="search" replace />} />
+      </Routes>
     </>
   );
 };

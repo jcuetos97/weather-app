@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addCity, fetchWeather } from '../store/weather';
+import { addCity, fetchWeather, resetResultMessage } from '../store/weather';
 import { Autocomplete } from '@mui/material';
 import { TextField, Button } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
@@ -12,17 +12,19 @@ const SearchInput = () => {
   const [selectedCities, setSelectedCities] = useState([]);
   const dispatch = useDispatch();
 
+  const handleFocus = () => {
+    dispatch(resetResultMessage());
+  };
+
   const handleSearch = () => {
     if (selectedCities.length > 0) {
       selectedCities.forEach((city) => {
-        dispatch(addCity(city.trim()));
         dispatch(fetchWeather(city.trim()));
       });
       setSelectedCities([]);
     }
 
     if (typedCity) {
-      dispatch(addCity(typedCity.trim()));
       dispatch(fetchWeather(typedCity.trim()));
       setTypedCity('');
     }
@@ -49,6 +51,7 @@ const SearchInput = () => {
             label="Search City"
             onChange={(e) => setTypedCity(e.target.value)}
             onKeyDown={handleKeyPress}
+            onFocus={handleFocus}
           />
         )}
       />
