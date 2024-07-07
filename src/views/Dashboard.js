@@ -14,7 +14,7 @@ import {
   dashboard__no__cities__container,
   dashboard__main__container,
 } from '../assets/css/views/Dashboard.module.css';
-import AddLocationIcon from '@mui/icons-material/AddLocation';
+import weatherAppImage from '../assets/img/weather-app.png';
 
 const Dashboard = () => {
   const { cities, weatherData, loading, resultMessage } = useSelector(
@@ -87,8 +87,17 @@ const Dashboard = () => {
       {loading && <LoadingSpinner />}
       {!loading && cities?.length === 0 && (
         <Box className={dashboard__no__cities__container}>
-          <AddLocationIcon fontSize="large" />
-          <Typography fontSize="1rem" variant="h5">
+          <img
+            src={weatherAppImage}
+            alt="Weather App"
+            style={{ width: '100px', height: '100px' }}
+          />
+          <Typography
+            textAlign="center"
+            fontSize="1rem"
+            fontWeight="600"
+            variant="h5"
+          >
             No cities added yet. Please search and add a city.
           </Typography>
         </Box>
