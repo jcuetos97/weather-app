@@ -10,7 +10,10 @@ import {
 } from '@mui/material';
 import { Cloud, AccountCircle, Logout } from '@mui/icons-material';
 import { logout } from '../store/user';
-import classes from '../assets/css/components/Navbar.module.css';
+import {
+  nav__button,
+  nav__container,
+} from '../assets/css/components/Navbar.module.css';
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -24,7 +27,7 @@ const Navbar = () => {
   };
 
   return (
-    <AppBar className={classes.nav__container} position="static">
+    <AppBar className={nav__container} position="static">
       <Toolbar>
         <Cloud style={{ marginRight: '0.5em' }} />
         <Typography variant={isMobile ? 'h6' : 'h5'} style={{ flexGrow: 1 }}>

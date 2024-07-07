@@ -8,7 +8,14 @@ import {
 import { Button, Card, CardContent, Grid, Typography } from '@mui/material';
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import classes from '../assets/css/components/WeatherCard.module.css';
+import {
+  card__weather__button,
+  card__weather__container,
+  card__weather__grid,
+  card__weather__header,
+  card__weather__icon,
+  card__weather__item,
+} from '../assets/css/components/WeatherCard.module.css';
 import { removeCity } from '../store/weather';
 
 // Function to format climate values
@@ -34,26 +41,22 @@ const WeatherCard = ({ city, weather, unit = 'imperial' }) => {
   const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
 
   return (
-    <Card className={classes.card__weather__container}>
+    <Card className={card__weather__container}>
       <CardContent>
-        <Typography
-          variant="h5"
-          mb={2}
-          className={classes.card__weather__header}
-        >
+        <Typography variant="h5" mb={2} className={card__weather__header}>
           {weather?.name || city}
         </Typography>
         {weather?.weather[0].description && (
-          <div className={classes.card__weather__icon}>
+          <div className={card__weather__icon}>
             <img src={iconUrl} alt={weather?.weather[0].description} />
           </div>
         )}
-        <Grid container rowSpacing={2} className={classes.card__weather__grid}>
+        <Grid container rowSpacing={2} className={card__weather__grid}>
           <Grid item>
             <Typography
               variant="body2"
               fontSize="medium"
-              className={classes.card__weather__item}
+              className={card__weather__item}
             >
               <Thermostat fontSize="small" />
               Temperature: {formatData(weather?.main.temp, 'temperature', unit)}
@@ -63,7 +66,7 @@ const WeatherCard = ({ city, weather, unit = 'imperial' }) => {
             <Typography
               variant="body2"
               fontSize="medium"
-              className={classes.card__weather__item}
+              className={card__weather__item}
             >
               <Opacity fontSize="small" /> Humidity:{' '}
               {weather?.main.humidity || '-'}%
@@ -73,7 +76,7 @@ const WeatherCard = ({ city, weather, unit = 'imperial' }) => {
             <Typography
               variant="body2"
               fontSize="medium"
-              className={classes.card__weather__item}
+              className={card__weather__item}
             >
               <Air fontSize="medium" /> Wind Speed:{' '}
               {formatData(weather?.wind.speed, 'wind', unit)}
@@ -83,7 +86,7 @@ const WeatherCard = ({ city, weather, unit = 'imperial' }) => {
         <Button
           fontSize="small"
           onClick={handleRemove}
-          className={classes.card__weather__button}
+          className={card__weather__button}
         >
           <DeleteOutline fontSize="small" /> Remove
         </Button>

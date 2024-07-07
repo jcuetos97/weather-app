@@ -19,3 +19,7 @@
   color: var(--gray-100) !important;
   background-color: var(--gray-700) !important;
 }
+
+.error__input {
+  color: var(--gray-100);
+}

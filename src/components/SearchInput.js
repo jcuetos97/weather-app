@@ -1,10 +1,15 @@
+import SearchIcon from '@mui/icons-material/Search';
+import { Autocomplete, Button, TextField } from '@mui/material';
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addCity, fetchWeather, resetResultMessage } from '../store/weather';
-import { Autocomplete, TextField, Button, Typography } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import styles from '../assets/css/components/SearchInput.module.css';
+import {
+  search__container,
+  search__input,
+  search__button,
+  error__input,
+} from '../assets/css/components/SearchInput.module.css';
 import mostSearchedCities from '../constant';
+import { fetchWeather, resetResultMessage } from '../store/weather';
 
 const SearchInput = () => {
   const [typedCity, setTypedCity] = useState('');
@@ -49,10 +54,10 @@ const SearchInput = () => {
   };
 
   return (
-    <div className={styles.search__container}>
+    <div className={search__container}>
       <Autocomplete
         multiple
-        className={styles.search__input}
+        className={search__input}
         options={mostSearchedCities}
         value={selectedCities}
         onChange={(event, newValue) => {
@@ -71,12 +76,12 @@ const SearchInput = () => {
             variant="outlined"
             InputProps={{
               ...params.InputProps,
-              className: error ? styles.error__input : '',
+              className: error ? error__input : '',
             }}
           />
         )}
       />
-      <Button onClick={handleSearch} className={styles.search__button}>
+      <Button onClick={handleSearch} className={search__button}>
         <SearchIcon />
       </Button>
     </div>

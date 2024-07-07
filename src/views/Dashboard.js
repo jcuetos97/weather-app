@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Container, Chip } from '@mui/material';
+import { Container, Chip, Typography, Box } from '@mui/material';
 import { useSelector, useDispatch } from 'react-redux';
 import WeatherCard from '../components/WeatherCard';
 import SearchInput from '../components/SearchInput';
@@ -9,7 +9,12 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import '../assets/css/slider.css';
 import { resetResultMessageAsync } from '../store/weather';
-import classes from '../assets/css/views/Dashboard.module.css';
+import {
+  dashboard__message__item,
+  dashboard__no__cities__container,
+  dashboard__main__container,
+} from '../assets/css/views/Dashboard.module.css';
+import AddLocationIcon from '@mui/icons-material/AddLocation';
 
 const Dashboard = () => {
   const { cities, weatherData, loading, resultMessage } = useSelector(
@@ -23,7 +28,26 @@ const Dashboard = () => {
     }
   }, [resultMessage, dispatch]);
 
-  // Settings for the Slick slider
+  const renderMessage = () => {
+    if (!resultMessage.state) return null;
+
+    const messageTypes = {
+      success: { color: 'success', msg: resultMessage.msg },
+      error: { color: 'error', msg: resultMessage.msg },
+      pending: { color: 'primary', msg: resultMessage.msg },
+    };
+
+    return (
+      <div className={dashboard__message__item}>
+        <Chip
+          label={messageTypes[resultMessage.state]?.msg}
+          color={messageTypes[resultMessage.state]?.color}
+          variant="outlined"
+        />
+      </div>
+    );
+  };
+
   const settings = {
     dots: true,
     arrows: true,
@@ -56,31 +80,24 @@ const Dashboard = () => {
   };
 
   return (
-    <Container className={classes.dashboard__main__container} maxWidth="md">
+    <Container className={dashboard__main__container} maxWidth="md">
       <h1>Weather App Dashboard</h1>
       <SearchInput />
       <h2>Your cities</h2>
-      {resultMessage.state === 'success' && (
-        <div className={classes.dashboard__message__item}>
-          <Chip label={resultMessage.msg} color="success" variant="outlined" />
-        </div>
-      )}
-      {resultMessage.state === 'error' && (
-        <div className={classes.dashboard__message__item}>
-          <Chip label={resultMessage.msg} color="error" variant="outlined" />
-        </div>
-      )}
-      {resultMessage.state === 'pending' && (
-        <div className={classes.dashboard__message__item}>
-          <Chip label={resultMessage.msg} color="primary" variant="outlined" />
-        </div>
-      )}
-
+      {renderMessage()}
       {loading && <LoadingSpinner />}
+      {!loading && cities?.length === 0 && (
+        <Box className={dashboard__no__cities__container}>
+          <AddLocationIcon fontSize="large" />
+          <Typography variant="h6">
+            No cities added yet. Please search and add a city.
+          </Typography>
+        </Box>
+      )}
       {!loading && cities?.length > 0 && (
         <Container className="slider-container">
           <Slider {...settings}>
-            {cities.map((city) => (
+            {cities?.reverse().map((city) => (
               <div key={city}>
                 <WeatherCard city={city} weather={weatherData[city]} />
               </div>
