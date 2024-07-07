@@ -25,3 +25,9 @@
   color: var(--gray-500) !important;
   font-size: 2rem !important;
 }
+
+@media screen and (max-width: 1200px) {
+  .slider-container {
+    width: 90% !important;
+  }
+}

@@ -3,12 +3,7 @@ import weatherReducer, {
   addCity,
   removeCity,
   resetResultMessage,
-  fetchWeather,
 } from './weather';
-import { configureStore } from '@reduxjs/toolkit';
-import thunk from 'redux-thunk';
-import axios from 'axios';
-import MockAdapter from 'axios-mock-adapter';
 
 jest.mock('axios');
 
@@ -17,7 +12,7 @@ const initialState = {
   weatherData: {},
   loading: false,
   error: null,
-  resultMessage: '',
+  resultMessage: { msg: '', state: '' },
 };
 
 describe('weatherSlice', () => {
@@ -37,12 +32,18 @@ describe('weatherSlice', () => {
     const previousState = { ...initialState, cities: ['New York'] };
     expect(weatherReducer(previousState, removeCity('New York'))).toEqual({
       ...initialState,
-      resultMessage: 'New York has been removed successfully.',
+      resultMessage: {
+        msg: 'New York has been removed successfully.',
+        state: 'success',
+      },
     });
   });
 
   it('should handle resetResultMessage', () => {
-    const previousState = { ...initialState, resultMessage: 'Some message' };
+    const previousState = {
+      ...initialState,
+      resultMessage: { msg: '', state: '' },
+    };
     expect(weatherReducer(previousState, resetResultMessage())).toEqual(
       initialState,
     );

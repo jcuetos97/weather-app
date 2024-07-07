@@ -56,7 +56,6 @@ const Dashboard = () => {
     slidesToShow: 3,
     slidesToScroll: 1,
     adaptiveHeight: true,
-    mobileFirst: true,
     responsive: [
       {
         breakpoint: 1024,
@@ -89,7 +88,7 @@ const Dashboard = () => {
       {!loading && cities?.length === 0 && (
         <Box className={dashboard__no__cities__container}>
           <AddLocationIcon fontSize="large" />
-          <Typography variant="h6">
+          <Typography fontSize="1rem" variant="h5">
             No cities added yet. Please search and add a city.
           </Typography>
         </Box>
@@ -97,7 +96,7 @@ const Dashboard = () => {
       {!loading && cities?.length > 0 && (
         <Container className="slider-container">
           <Slider {...settings}>
-            {cities?.reverse().map((city) => (
+            {[...cities].reverse().map((city) => (
               <div key={city}>
                 <WeatherCard city={city} weather={weatherData[city]} />
               </div>

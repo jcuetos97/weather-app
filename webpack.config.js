@@ -18,7 +18,10 @@ module.exports = {
   mode: 'development', // or 'production'
   devtool: 'inline-source-map',
   devServer: {
-    static: './dist',
+    static: {
+      directory: path.join(__dirname, 'dist'),
+    },
+    port: 8080,
     hot: true,
     historyApiFallback: true, // enables proper routing with react-router
   },
@@ -54,7 +57,7 @@ module.exports = {
         ],
       },
       {
-        test: /\.(png|svg|jpg|jpeg|gif|ico)$/,
+        test: /\.(png|svg|jpg|jpeg|gif|ico|json)$/,
         exclude: /node_modules/,
         use: ['file-loader?name=[name].[ext]'],
       },
@@ -65,6 +68,8 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: './public/index.html',
       filename: 'index.html',
+      inject: true,
+      favicon: './public/favicon.ico',
     }),
     new MiniCssExtractPlugin({
       filename: '[name].css',
