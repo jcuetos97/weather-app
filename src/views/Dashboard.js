@@ -9,6 +9,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import '../assets/css/slider.css';
 import { resetResultMessageAsync } from '../store/weather';
+import classes from '../assets/css/views/Dashboard.module.css';
 
 const Dashboard = () => {
   const { cities, weatherData, loading, resultMessage } = useSelector(
@@ -45,6 +46,7 @@ const Dashboard = () => {
       {
         breakpoint: 600,
         settings: {
+          arrows: false,
           slidesToShow: 1,
           slidesToScroll: 1,
           initialSlide: 1,
@@ -54,16 +56,28 @@ const Dashboard = () => {
   };
 
   return (
-    <Container maxWidth="md">
+    <Container className={classes.dashboard__main__container} maxWidth="md">
       <h1>Weather App Dashboard</h1>
       <SearchInput />
       <h2>Your cities</h2>
-      {resultMessage && (
-        <Chip label={resultMessage} color="success" variant="outlined" />
+      {resultMessage.state === 'success' && (
+        <div className={classes.dashboard__message__item}>
+          <Chip label={resultMessage.msg} color="success" variant="outlined" />
+        </div>
+      )}
+      {resultMessage.state === 'error' && (
+        <div className={classes.dashboard__message__item}>
+          <Chip label={resultMessage.msg} color="error" variant="outlined" />
+        </div>
+      )}
+      {resultMessage.state === 'pending' && (
+        <div className={classes.dashboard__message__item}>
+          <Chip label={resultMessage.msg} color="primary" variant="outlined" />
+        </div>
       )}
 
       {loading && <LoadingSpinner />}
-      {cities?.length > 0 && (
+      {!loading && cities?.length > 0 && (
         <Container className="slider-container">
           <Slider {...settings}>
             {cities.map((city) => (

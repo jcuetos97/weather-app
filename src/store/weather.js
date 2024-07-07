@@ -6,7 +6,7 @@ const initialState = {
   weatherData: {},
   loading: false,
   error: null,
-  resultMessage: '',
+  resultMessage: { state: '', msg: '' },
 };
 
 export const fetchWeather = createAsyncThunk(
@@ -40,37 +40,49 @@ const weatherSlice = createSlice({
     },
     removeCity: (state, action) => {
       state.cities = state.cities.filter((city) => city !== action.payload);
-      state.resultMessage = `${action.payload} has been removed successfully.`;
+      state.resultMessage = {
+        state: 'success',
+        msg: `${action.payload} has been removed successfully.`,
+      };
       delete state.weatherData[action.payload];
     },
     resetResultMessage: (state) => {
-      state.resultMessage = '';
+      state.resultMessage = initialState.resultMessage;
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchWeather.pending, (state) => {
         state.loading = true;
-        state.resultMessage = 'Searching...';
+        state.resultMessage = { state: 'pending', msg: 'Searching...' };
       })
       .addCase(fetchWeather.fulfilled, (state, action) => {
         state.loading = false;
         const { data, city, alreadySearched, error } = action.payload;
 
         if (alreadySearched) {
-          state.resultMessage = `${city} is already in the list.`;
+          state.resultMessage = {
+            state: 'success',
+            msg: `${city} is already in the list.`,
+          };
         } else if (error) {
-          state.resultMessage = `An error occurred while fetching weather for ${city}: ${error}`;
+          state.resultMessage = {
+            state: 'error',
+            msg: `An error occurred while fetching weather for ${city}.`,
+          };
         } else {
           state.weatherData[city] = data;
           state.cities.push(city);
-          state.resultMessage = `Successfully added ${city}.`;
+          state.resultMessage = {
+            state: 'success',
+            msg: `Successfully added ${city}.`,
+          };
         }
       })
       .addCase(fetchWeather.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
-        state.resultMessage = 'An error occurred.';
+        state.resultMessage = { state: 'error', msg: 'An error occurred.' };
       });
   },
 });

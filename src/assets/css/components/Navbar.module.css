@@ -1,0 +1,18 @@
+.nav__container {
+  background-color: var(--gray-700) !important;
+}
+
+.nav__button {
+  text-transform: none !important;
+}
+
+.nav__container .MuiSvgIcon-root {
+  vertical-align: middle;
+  margin-right: 0.5em;
+}
+
+@media screen and (max-width: 600px) {
+  .nav__container .MuiTypography-h5 {
+    font-size: 1.25rem;
+  }
+}

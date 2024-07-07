@@ -1,0 +1,13 @@
+.dashboard__message__item {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  transform: translateY(-50px);
+  z-index: 10;
+}
+
+.dashboard__main__container {
+  margin-top: 2rem;
+  position: relative;
+}
