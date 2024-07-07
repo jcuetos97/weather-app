@@ -40,6 +40,7 @@ const weatherSlice = createSlice({
     },
     removeCity: (state, action) => {
       state.cities = state.cities.filter((city) => city !== action.payload);
+      state.resultMessage = `${action.payload} has been removed successfully.`;
       delete state.weatherData[action.payload];
     },
     resetResultMessage: (state) => {
@@ -73,6 +74,12 @@ const weatherSlice = createSlice({
       });
   },
 });
+
+export const resetResultMessageAsync = () => (dispatch) => {
+  setTimeout(() => {
+    dispatch(resetResultMessage());
+  }, 3000);
+};
 
 export const { addCity, removeCity, resetResultMessage } = weatherSlice.actions;
 export default weatherSlice.reducer;

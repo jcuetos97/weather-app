@@ -22,6 +22,14 @@
   font-size: 2rem !important;
 }
 
-.slider-container {
-  width: 80% !important;
+@media screen and (max-width: 768px) {
+  .slider-container {
+    width: 90% !important;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .slider-container {
+    width: 80% !important;
+  }
 }

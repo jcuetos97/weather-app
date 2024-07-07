@@ -1,6 +1,6 @@
-import React, { useRef, useEffect } from 'react';
-import { Container } from '@mui/material';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { Container, Chip } from '@mui/material';
+import { useSelector, useDispatch } from 'react-redux';
 import WeatherCard from '../components/WeatherCard';
 import SearchInput from '../components/SearchInput';
 import LoadingSpinner from '../components/LoadingSpinner';
@@ -8,11 +8,19 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import '../assets/css/slider.css';
+import { resetResultMessageAsync } from '../store/weather';
 
 const Dashboard = () => {
   const { cities, weatherData, loading, resultMessage } = useSelector(
     (state) => state.weather,
   );
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (resultMessage) {
+      dispatch(resetResultMessageAsync());
+    }
+  }, [resultMessage, dispatch]);
 
   // Settings for the Slick slider
   const settings = {
@@ -50,7 +58,10 @@ const Dashboard = () => {
       <h1>Weather App Dashboard</h1>
       <SearchInput />
       <h2>Your cities</h2>
-      <p>{resultMessage}</p>
+      {resultMessage && (
+        <Chip label={resultMessage} color="success" variant="outlined" />
+      )}
+
       {loading && <LoadingSpinner />}
       {cities?.length > 0 && (
         <Container className="slider-container">
