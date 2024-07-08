@@ -31,14 +31,18 @@ const SearchInput = () => {
       return;
     }
 
+    const citiesToFetch = [];
+
     if (selectedCities.length > 0) {
-      selectedCities.forEach((city) => {
-        dispatch(fetchWeather(city.trim()));
-      });
+      citiesToFetch.push(...selectedCities.map((city) => city.trim()));
     }
 
     if (typedCity) {
-      dispatch(fetchWeather(typedCity.trim()));
+      citiesToFetch.push(typedCity.trim());
+    }
+
+    if (citiesToFetch.length > 0) {
+      dispatch(fetchWeather(citiesToFetch));
     }
 
     setTypedCity('');

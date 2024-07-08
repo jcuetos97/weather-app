@@ -8,7 +8,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import '../assets/css/slider.css';
-import { resetResultMessageAsync } from '../store/weather';
+import { resetResultMessage } from '../store/weather';
 import {
   dashboard__message__item,
   dashboard__no__cities__container,
@@ -17,33 +17,34 @@ import {
 import weatherAppImage from '../assets/img/weather-app.png';
 
 const Dashboard = () => {
-  const { cities, weatherData, loading, resultMessage } = useSelector(
+  const { cities, weatherData, loading, resultMessages } = useSelector(
     (state) => state.weather,
   );
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (resultMessage) {
-      dispatch(resetResultMessageAsync());
+    if (resultMessages?.length > 0) {
+      const timer = setTimeout(() => {
+        dispatch(resetResultMessage());
+      }, 5000);
+
+      return () => clearTimeout(timer);
     }
-  }, [resultMessage, dispatch]);
+  }, [resultMessages, dispatch]);
 
   const renderMessage = () => {
-    if (!resultMessage.state) return null;
-
-    const messageTypes = {
-      success: { color: 'success', msg: resultMessage.msg },
-      error: { color: 'error', msg: resultMessage.msg },
-      pending: { color: 'primary', msg: resultMessage.msg },
-    };
-
+    if (!resultMessages || resultMessages.length === 0) return null;
+    console.log(resultMessages);
     return (
       <div className={dashboard__message__item}>
-        <Chip
-          label={messageTypes[resultMessage.state]?.msg}
-          color={messageTypes[resultMessage.state]?.color}
-          variant="outlined"
-        />
+        {resultMessages.map((message, index) => (
+          <Chip
+            key={index}
+            label={message.msg}
+            color={message.state}
+            variant="outlined"
+          />
+        ))}
       </div>
     );
   };

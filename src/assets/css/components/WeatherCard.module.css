@@ -9,8 +9,8 @@
   margin-top: 1rem;
   margin-bottom: 2.5rem;
   display: flex;
-  flex-direction: column;
-  flex-wrap: nowrap;
+  flex-direction: column !important;
+  flex-wrap: nowrap !important;
 }
 
 .card__weather__item {

@@ -6,25 +6,60 @@ const initialState = {
   weatherData: {},
   loading: false,
   error: null,
-  resultMessage: { state: '', msg: '' },
+  resultMessages: [],
 };
 
 export const fetchWeather = createAsyncThunk(
   'weather/fetchWeather',
-  async (city, { getState }) => {
-    const { cities } = getState().weather;
-    if (cities.includes(city)) {
-      return { alreadySearched: true, city };
+  async (cities, { getState, dispatch }) => {
+    const { weather } = getState();
+    const { cities: currentCities } = weather;
+
+    const successMessages = [];
+    const alreadyIncludedMessages = [];
+    const otherErrorMessages = [];
+
+    for (let city of cities) {
+      if (currentCities.includes(city)) {
+        alreadyIncludedMessages.push(city);
+      } else {
+        try {
+          const response = await axios.get(
+            `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${process.env.REACT_APP_API_KEY}`,
+          );
+          dispatch(addCity(city));
+          dispatch(updateWeatherData({ city, data: response.data }));
+          successMessages.push(city);
+        } catch (error) {
+          otherErrorMessages.push(city);
+        }
+      }
     }
 
-    try {
-      const response = await axios.get(
-        `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${process.env.REACT_APP_API_KEY}`,
-      );
-      return { data: response.data, city };
-    } catch (error) {
-      return { error: error.message, city };
+    // Consolidate messages
+    const resultMessages = [];
+    if (successMessages.length > 0) {
+      resultMessages.push({
+        state: 'success',
+        msg: `Successfully added ${successMessages.join(', ')}.`,
+      });
     }
+    if (alreadyIncludedMessages.length > 0) {
+      resultMessages.push({
+        state: 'error',
+        msg: `${alreadyIncludedMessages.join(', ')} ${
+          alreadyIncludedMessages.length > 1 ? 'are' : 'is'
+        } already in the list.`,
+      });
+    }
+    if (otherErrorMessages.length > 0) {
+      resultMessages.push({
+        state: 'error',
+        msg: `Failed to fetch weather for ${otherErrorMessages.join(', ')}`,
+      });
+    }
+
+    return resultMessages;
   },
 );
 
@@ -44,86 +79,49 @@ const weatherSlice = createSlice({
     addCity: (state, action) => {
       const city = action.payload;
       if (!state.cities.includes(city)) {
-        return {
-          ...state,
-          cities: [...state.cities, city],
-        };
+        state.cities.push(city);
       }
+    },
+    updateWeatherData: (state, action) => {
+      const { city, data } = action.payload;
+      state.weatherData[city] = data;
     },
     removeCity: (state, action) => {
       const city = action.payload;
-      const newCities = state.cities.filter((c) => c !== city);
-      const newWeatherData = { ...state.weatherData };
-      delete newWeatherData[city];
-      return {
-        ...state,
-        cities: newCities,
-        weatherData: newWeatherData,
-        resultMessage: {
+      state.cities = state.cities.filter((c) => c !== city);
+      delete state.weatherData[city];
+      state.resultMessages = [
+        {
           state: 'success',
           msg: `${city} has been removed successfully.`,
         },
-      };
+      ];
     },
     resetResultMessage: (state) => {
-      return {
-        ...state,
-        resultMessage: { state: '', msg: '' },
-      };
+      state.resultMessages = [];
     },
   },
   extraReducers: (builder) => {
     builder
       .addCase(fetchWeather.pending, (state) => {
-        return {
-          ...state,
-          loading: true,
-          resultMessage: { state: 'pending', msg: 'Searching...' },
-        };
+        state.loading = true;
+        state.resultMessages = [{ state: 'primary', msg: 'Searching...' }];
       })
       .addCase(fetchWeather.fulfilled, (state, action) => {
-        const { data, city, alreadySearched, error } = action.payload;
-        if (alreadySearched) {
-          return {
-            ...state,
-            loading: false,
-            resultMessage: {
-              state: 'error',
-              msg: `${city} is already in the list.`,
-            },
-          };
-        } else if (error) {
-          return {
-            ...state,
-            loading: false,
-            resultMessage: {
-              state: 'error',
-              msg: `An error occurred while fetching weather for ${city}: ${error}`,
-            },
-          };
-        } else {
-          return {
-            ...state,
-            loading: false,
-            cities: [...state.cities, city],
-            weatherData: { ...state.weatherData, [city]: data },
-            resultMessage: {
-              state: 'success',
-              msg: `Successfully added ${city}.`,
-            },
-          };
-        }
+        state.loading = false;
+        state.resultMessages = action.payload;
       })
       .addCase(fetchWeather.rejected, (state, action) => {
-        return {
-          ...state,
-          loading: false,
-          error: action.error.message,
-          resultMessage: { state: 'error', msg: 'An error occurred.' },
-        };
+        state.loading = false;
+        state.error = action.error.message;
+        state.resultMessages.push({
+          state: 'error',
+          msg: 'An error occurred.',
+        });
       });
   },
 });
 
-export const { addCity, removeCity, resetResultMessage } = weatherSlice.actions;
+export const { addCity, updateWeatherData, removeCity, resetResultMessage } =
+  weatherSlice.actions;
 export default weatherSlice.reducer;
