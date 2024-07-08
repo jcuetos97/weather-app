@@ -38,7 +38,7 @@ To run the Weather App locally, follow these steps:
    Create a `.env` file in the root directory and add your OpenWeatherMap API key:
    `REACT_APP_API_KEY=your_api_key_here`
 
-4. **Ensure Node.js version 16+:**
+4. **Ensure Node.js version 16+ (developed using v16.16.0):**
    Make sure you are using Node.js version 16 or higher, as it is fundamental for this app.
 
 5. **Start the application:**

@@ -34,7 +34,7 @@ const Dashboard = () => {
 
   const renderMessage = () => {
     if (!resultMessages || resultMessages.length === 0) return null;
-    console.log(resultMessages);
+
     return (
       <div className={dashboard__message__item}>
         {resultMessages.map((message, index) => (
