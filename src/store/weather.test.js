@@ -12,7 +12,7 @@ const initialState = {
   weatherData: {},
   loading: false,
   error: null,
-  resultMessage: { msg: '', state: '' },
+  resultMessages: [],
 };
 
 describe('weatherSlice', () => {
@@ -32,17 +32,19 @@ describe('weatherSlice', () => {
     const previousState = { ...initialState, cities: ['New York'] };
     expect(weatherReducer(previousState, removeCity('New York'))).toEqual({
       ...initialState,
-      resultMessage: {
-        msg: 'New York has been removed successfully.',
-        state: 'success',
-      },
+      resultMessages: [
+        {
+          msg: 'New York has been removed successfully.',
+          state: 'success',
+        },
+      ],
     });
   });
 
   it('should handle resetResultMessage', () => {
     const previousState = {
       ...initialState,
-      resultMessage: { msg: '', state: '' },
+      resultMessages: [],
     };
     expect(weatherReducer(previousState, resetResultMessage())).toEqual(
       initialState,
