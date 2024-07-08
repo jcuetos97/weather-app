@@ -70,6 +70,8 @@ For the login page, the username and password can be anything as there is no aut
 Run tests to ensure the app functions as expected:
 `npm test`
 
+These tests focus on rendering the components, handling user interactions, and ensuring the correct Redux actions are dispatched.
+
 ## Design Choices and Architecture
 
 - **Component-Based Architecture:** The app is built using React, following a component-based architecture to promote reusability and maintainability.

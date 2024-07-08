@@ -3,6 +3,7 @@ import { CircularProgress } from '@mui/material';
 
 const LoadingSpinner = () => (
   <div
+    data-testid="loading-spinner"
     style={{
       display: 'flex',
       justifyContent: 'center',

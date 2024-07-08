@@ -3,7 +3,7 @@ import weatherReducer, {
   addCity,
   removeCity,
   resetResultMessage,
-} from './weather';
+} from '../../src/store/weather';
 
 jest.mock('axios');
 

@@ -124,4 +124,5 @@ const weatherSlice = createSlice({
 
 export const { addCity, updateWeatherData, removeCity, resetResultMessage } =
   weatherSlice.actions;
-export default weatherSlice.reducer;
+export const { actions, reducer: weatherReducer } = weatherSlice;
+export default weatherReducer;

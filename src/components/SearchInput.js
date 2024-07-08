@@ -85,7 +85,11 @@ const SearchInput = () => {
           />
         )}
       />
-      <Button onClick={handleSearch} className={search__button}>
+      <Button
+        data-testid="search-button"
+        onClick={handleSearch}
+        className={search__button}
+      >
         <SearchIcon />
       </Button>
     </div>

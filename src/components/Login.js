@@ -26,7 +26,7 @@ export const Login = () => {
 
   return (
     <Container>
-      <h2>Login</h2>
+      <h2 data-testid="Login-header">Login</h2>
       <TextField
         label="Username"
         value={username}
@@ -42,6 +42,7 @@ export const Login = () => {
         style={{ marginTop: '1em' }}
       />
       <Button
+        data-testid="Login-button"
         variant="contained"
         color="primary"
         onClick={handleLogin}
